@@ -12,6 +12,9 @@ public class Main2263 {
 
 	// 후위 순회(post order)의 끝 값은 항상 맨 위의 root!
 	// 분할 정복!
+	// postOrder 의 맨 마지막은 Root.
+	// 찾은 Root로 Left, Right를 나누어서 똑같이 실행해주자.
+	// preOrder는 Root, Left, Right이니까 Root먼저 넣어주고 나머지 순차적으로 넣어주기
 	static int[] inTree;
 	static int[] postTree;
 	static int[] preTree;
