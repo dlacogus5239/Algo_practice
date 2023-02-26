@@ -4,7 +4,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-// 개중요 
+/* 
+ * 
+ * 
+ * 
+ * 
+ * 개중요
+ * 
+ *  
+ *  
+ *  */
 public class Main9663 {
 	// 백준 9663 N-Queen
 	static int N;
