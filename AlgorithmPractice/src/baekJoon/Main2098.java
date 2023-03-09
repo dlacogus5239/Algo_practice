@@ -39,7 +39,7 @@ public class Main2098 {
 		br.close();
 
 		for (int i = 0; i < N; i++) {
-			Arrays.fill(dp[i], INF); // MAX 값 : 11,000,000
+			Arrays.fill(dp[i], -1); // MAX 값 : 11,000,000
 		}
 
 		bw.write(TSP(0, 1) + "\n");
@@ -55,9 +55,11 @@ public class Main2098 {
 			return graph[node][0]; // 현재 도시-> 0번째(시작)도시 이동 거리
 		}
 
-		if (dp[node][visit] != INF) { // dp값이 존재하는 경우
+		if (dp[node][visit] != -1) { // dp값이 존재하는 경우
 			return dp[node][visit];
 		}
+
+		dp[node][visit] = INF;
 
 		for (int i = 0; i < N; i++) { // 현재 도시(node)에서 각 i번째 노드(도시)로 이동한 경우의 dfs 수행
 			if ((visit & (1 << i)) == 0 && graph[node][i] != 0) { // 한번이라도 그 도시 방문했는데, 다시 그 도시 방문하는 경우 예외
