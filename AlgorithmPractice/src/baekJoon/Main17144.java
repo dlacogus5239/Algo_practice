@@ -25,7 +25,6 @@ public class Main17144 {
 		C = Integer.parseInt(st.nextToken());
 		T = Integer.parseInt(st.nextToken());
 		map = new int[R][C];
-		nextMap = new int[R][C];
 
 		for (int i = 0; i < R; i++) {
 			st = new StringTokenizer(br.readLine());
@@ -42,6 +41,26 @@ public class Main17144 {
 		}
 		br.close();
 
+		for (int t = 0; t < T; t++) {
+			nextMap = new int[R][C];
+			for (int i = 0; i < R; i++) {
+				for (int j = 0; j < C; j++) {
+					if (map[i][j] != 0 || map[i][j] != -1) {
+						Spread(j, i);
+					}
+				}
+			}
+			map = nextMap.clone();
+			Circulation();
+		}
+
+//		for (int i = 0; i < R; i++) {
+//			for (int j = 0; j < C; j++) {
+//				System.out.print(map[i][j] + " ");
+//			}
+//			System.out.println();
+//		}
+
 		// 미세먼지 합산
 		int result = 0;
 		for (int i = 0; i < R; i++) {
@@ -56,6 +75,8 @@ public class Main17144 {
 	}
 
 	// 미세먼지 확산
+	// nextMap 에 값 저장 후 map으로 옮겨주기
+	// END
 	public static void Spread(int x, int y) {
 		int cnt = 0;
 		// 인접한 네 방향으로 확산
@@ -67,44 +88,52 @@ public class Main17144 {
 			if (!isIn(nx, ny)) {
 				continue;
 			}
-			cnt++;
 			// 공기청정기 쪽으로 확산되면 없애기
 			if (map[ny][nx] == -1) {
 				continue;
 			}
+			cnt++;
 
 			// 확산되는 양은 map[y][x] / 5
-			map[ny][nx] = map[ny][nx] + map[y][x] / 5;
+			nextMap[ny][nx] = nextMap[ny][nx] + map[y][x] / 5;
 
 		}
 		// 남은 양은 map[y][x] - (map[y][x] / 5) * 확산된 방향수
-		map[y][x] = map[y][x] - (map[y][x] / 5) * cnt;
+		nextMap[y][x] = map[y][x] - (map[y][x] / 5) * cnt + nextMap[y][x];
 	}
 
 	// 공기 순환
 	public static void Circulation() {
 		// 바람 반시계방향으로 순환
 		// 바람 방향으로 비세먼지 이동
-		for (int i = C - 2; i > 0; i--) {
-			map[airCleaner[0]][i] = map[airCleaner[0]][i - 1];
-			map[airCleaner[1]][i] = map[airCleaner[1]][i - 1];
-		}
-		for (int i = 0; i > airCleaner[0]; i--) {
-			map[i][C - 1] = map[i - 1][C - 1];
-		}
-		for (int i = R - 1; i >= airCleaner[1]; i++) {
-			map[i][C - 1] = map[i - 1][C - 1];
-		}
+		// airCleaner[0] : 위쪽 좌표
+		// airCleaner[1] : 아래쪽 좌표
+
 		for (int i = airCleaner[0] - 1; i > 0; i--) {
 			map[i][0] = map[i - 1][0];
 		}
 		for (int i = airCleaner[1] + 1; i < R - 1; i++) {
-			map[i][0] = map[i - 1][0];
+			map[i][0] = map[i + 1][0];
 		}
 
-		// 공기청정기로 들어간 미세먼지 정화
-		map[airCleaner[0] - 1][0] = 0;
-		map[airCleaner[1] + 1][0] = 0;
+		for (int i = 0; i < C - 1; i++) {
+			map[0][i] = map[0][i + 1];
+			map[R - 1][i] = map[R - 1][i + 1];
+		}
+
+		for (int i = 0; i < airCleaner[0]; i++) {
+			map[i][C - 1] = map[i + 1][C - 1];
+		}
+		for (int i = R - 1; i > airCleaner[1]; i--) {
+			map[i][C - 1] = map[i - 1][C - 1];
+		}
+
+		for (int i = C - 1; i > 1; i--) {
+			map[airCleaner[0]][i] = map[airCleaner[0]][i - 1];
+			map[airCleaner[1]][i] = map[airCleaner[1]][i - 1];
+		}
+		map[airCleaner[0]][1] = 0;
+		map[airCleaner[1]][1] = 0;
 	}
 
 	// 배열 범위 안인지
