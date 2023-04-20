@@ -1,4 +1,5 @@
 package programmers;
+
 import java.util.*;
 
 public class Solution0420_1 {
