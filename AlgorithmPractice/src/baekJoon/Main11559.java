@@ -1,54 +1,100 @@
 package baekJoon;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.*;
 
 public class Main11559 {
-	// 백준 Puyo Puyo
-	static char[][] map = new char[12][6];
-	static int[] dx = { 0, 0, -1, 1 };
-	static int[] dy = { -1, 1, 0, 0 };
-	static int answer = 0;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		// R, G, B, P, Y
-		for (int i = 0; i < 12; i++) {
-			String cur = br.readLine();
-			for (int j = 0; j < 6; j++) {
-				map[i][j] = cur.charAt(j);
+	static char[][] board;
+	static int[] dx = { 0, 1, 0, -1 };
+	static int[] dy = { 1, 0, -1, 0 };
+	static boolean[][] visited;
+	static ArrayList<Node> list;
+	static int n = 12, m = 6;
+
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+
+		board = new char[n][m];
+		for (int i = 0; i < n; i++) {
+			String field = scan.nextLine();
+			for (int j = 0; j < m; j++) {
+				board[i][j] = field.charAt(j);
 			}
 		}
-		// input END
 
-		// Simulation Start
+		int count = 0;
+		// board를 탐색하며 4개 이상 뭉쳐있는 노드를 확인한다.
+		while (true) {
+			boolean isFinished = true;
+			visited = new boolean[n][m];
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < m; j++) {
+					if (board[i][j] != '.') {
+						list = new ArrayList<>();
+						bfs(board[i][j], i, j);
 
-		// 1. 연쇄
-
-		// 2. 내림
-
-		// 반복
-
-		System.out.println(answer);
-	}
-
-	// map 안에 있는지 판단하는 함수
-	public static boolean isIn(int x, int y) {
-		if (x < 0 || y < 0 || x >= 6 || y >= 12) {
-			return false;
+						if (list.size() >= 4) {
+							isFinished = false; // 연쇄가 일어났으므로 더 탐색해보아야 한다.
+							for (int k = 0; k < list.size(); k++) {
+								board[list.get(k).x][list.get(k).y] = '.'; // 터트려서 없앰
+							}
+						}
+					}
+				}
+			}
+			if (isFinished)
+				break;
+			fallPuyos(); // 뿌요들을 떨어뜨린다.
+			count++;
 		}
-		return true;
+		System.out.println(count);
 	}
 
-	// 연쇄
-	public static void bfs(int x, int y) {
-
+	public static void fallPuyos() {
+		for (int i = 0; i < m; i++) {
+			for (int j = n - 1; j > 0; j--) {
+				if (board[j][i] == '.') {
+					for (int k = j - 1; k >= 0; k--) {
+						if (board[k][i] != '.') {
+							board[j][i] = board[k][i];
+							board[k][i] = '.';
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 
-	// 내림
-	public static void setDown() {
+	public static void bfs(char c, int x, int y) {
+		Queue<Node> q = new LinkedList<>();
+		list.add(new Node(x, y));
+		q.offer(new Node(x, y));
+		visited[x][y] = true;
 
+		while (!q.isEmpty()) {
+			Node current = q.poll();
+
+			for (int i = 0; i < 4; i++) {
+				int nx = current.x + dx[i];
+				int ny = current.y + dy[i];
+
+				if (nx >= 0 && ny >= 0 && nx < n && ny < m && visited[nx][ny] == false && board[nx][ny] == c) {
+					visited[nx][ny] = true;
+					list.add(new Node(nx, ny));
+					q.offer(new Node(nx, ny));
+				}
+			}
+		}
 	}
 
+	public static class Node {
+		int x;
+		int y;
+
+		public Node(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+	}
 }
