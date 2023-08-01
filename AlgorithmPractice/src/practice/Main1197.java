@@ -27,7 +27,7 @@ class Edge {
 }
 
 public class Main1197 {
-
+	
 	static int V, E;
 	static int[] p;
 
