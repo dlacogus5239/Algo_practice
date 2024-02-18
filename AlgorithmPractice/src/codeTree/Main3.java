@@ -130,10 +130,13 @@ public class Main3 {
 				if (stack.isEmpty()) {
 					if (cnt >= 4) {
 						// Step 2-1. Calculate Score
+						Score += cnt * tmp;
 						for (int i = 0; i < cnt; i++) {
-							Score += dq.pollLast();
+							dq.pollLast();
 						}
 					}
+					cnt = 1;
+					break;
 				}
 			} else {
 				if (cnt >= 4) {
@@ -146,14 +149,15 @@ public class Main3 {
 					cnt = 1;
 					dq.offer(tmp);
 					continue;
+				} else {
+					if (dq.getLast() == tmp) {
+						cnt = 2;
+					} else {
+						cnt = 1;
+					}
+					dq.offer(tmp);
 				}
 
-				if (dq.getLast() == tmp) {
-					cnt = 2;
-				} else {
-					cnt = 1;
-				}
-				dq.offer(tmp);
 			}
 		} while (!stack.isEmpty());
 //		System.out.println(dq.toString());
