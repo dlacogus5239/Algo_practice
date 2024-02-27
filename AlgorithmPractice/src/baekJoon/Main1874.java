@@ -28,7 +28,7 @@ public class Main1874 {
 			stack.pop();
 			sb.append("-").append("\n");
 		}
-		
+
 		System.out.println(flag ? sb.toString() : "NO");
 	}
 
