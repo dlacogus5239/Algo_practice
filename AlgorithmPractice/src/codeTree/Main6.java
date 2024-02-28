@@ -65,6 +65,8 @@ public class Main6 {
 	}
 
 	// 맵은 (1, 1) ~ (4, 4)
+	// 큐로 구현해보자.,,
+
 	// 현재 몬스터 맵
 	static ArrayList<Monster>[][] MonsterMap = new ArrayList[5][5];
 	// 알 있는 맵
@@ -109,19 +111,18 @@ public class Main6 {
 		// INPUT END
 
 		// Turn START
-//		for (int t = 0; t < T; t++) {
-//			
-//		}
-
-//		for (int i = 1; i < 5; i++) {
-//			for (int j = 1; j < 5; j++) {
-//				System.out.print(MonsterMap[i][j].toString() + " ");
-//			}
-//			System.out.println();
-//
-//		}
 
 		MakeMovePac(0);
+		TryDuplicateMonster();
+		MoveMonster();
+//		MovePacman();
+
+		for (int i = 1; i < 5; i++) {
+			for (int j = 1; j < 5; j++) {
+				System.out.print(MonsterMap[i][j].toString() + " ");
+			}
+			System.out.println();
+		}
 
 	}
 
@@ -145,7 +146,8 @@ public class Main6 {
 		for (int i = 1; i < 5; i++) {
 			for (int j = 1; j < 5; j++) {
 				if (MonsterMap[i][j].size() != 0) {
-					for (int m = 0; m < MonsterMap[i][j].size(); m++) {
+					int len = MonsterMap[i][j].size();
+					for (int m = 0; m < len; m++) {
 						Monster cur = MonsterMap[i][j].get(m);
 						int nDirection = cur.direction;
 						boolean flag = false;
