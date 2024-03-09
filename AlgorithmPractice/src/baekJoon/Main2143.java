@@ -47,7 +47,6 @@ public class Main2143 {
 			}
 		}
 
-
 		ASum.sort(null);
 		BSum.sort(null);
 
