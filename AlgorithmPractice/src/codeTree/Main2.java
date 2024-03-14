@@ -110,11 +110,10 @@ public class Main2 {
 
 			}
 
-//			System.out.println("R : " + r + " C : " + c + " direction : " + direction);
 			ThrowBall(r, c, direction);
 
 		}
-		PrintMap(PersonMap);
+//		PrintMap(PersonMap);
 
 		System.out.println(result);
 
@@ -148,36 +147,44 @@ public class Main2 {
 			}
 
 			if (map[nr][nc] == 2 || map[nr][nc] == 3) {
+				if (map[r][c] == 1 && map[nr][nc] == 3) {
+					continue;
+				}
 				if (!isVisited[nr][nc]) {
 					MakeTeam(nr, nc, num, cnt);
 				}
 			}
 		}
+
 	}
 
 	// 사람 이동
 	public static void Move() {
+//		System.out.println("BEFOR");
+//		PrintMap(PersonMap);
+//		System.out.println();
 		int[][] nextMap = new int[N][N];
 		// 현재 탐색할 Team[p]
 		for (int p = 0; p < M; p++) {
 			Person pre = new Person(Team[p].get(0).r, Team[p].get(0).c, Team[p].get(0).nth);
 			// 머리 사람 먼저 이동하고 나서
+
 			for (int d = 0; d < 4; d++) {
-				int nr = Team[p].get(0).r + dr[d];
-				int nc = Team[p].get(0).c + dc[d];
-				if (!isIn(nr, nc)) {
-					continue;
-				}
-				if (PersonMap[nr][nc] == 2) {
+				int nr = pre.r + dr[d];
+				int nc = pre.c + dc[d];
+
+				if (!isIn(nr, nc) || RoadMap[nr][nc] != 4) {
 					continue;
 				}
 
-				if (RoadMap[nr][nc] == 4 && PersonMap[nr][nc] != 2) {
+				// 길이고 그 다음 사람이 아니면 이동
+				if (PersonMap[nr][nc] != 2 && RoadMap[nr][nc] == 4) {
 					Team[p].get(0).r = nr;
 					Team[p].get(0).c = nc;
 					break;
 				}
 			}
+			// 머리사람 이동 완료
 
 			for (int i = 1; i < Team[p].size(); i++) {
 				Person cur = new Person(Team[p].get(i).r, Team[p].get(i).c, Team[p].get(i).nth);
@@ -190,37 +197,50 @@ public class Main2 {
 				pre.nth = cur.nth;
 			}
 
-			TeamMap = new int[N][N];
+		}
 
+		// 팀 전체 이동 완료
+		// 맵에 찍고 복사
+		TeamMap = new int[N][N];
+		PersonMap = new int[N][N];
+		for (int p = 0; p < M; p++) {
 			for (int i = 0; i < Team[p].size(); i++) {
 				Person cur = Team[p].get(i);
+				int num = 0;
 				if (cur.nth == 1) {
-					nextMap[cur.r][cur.c] = 1;
+					num = 1;
 				} else if (cur.nth == Team[p].size()) {
-					nextMap[cur.r][cur.c] = 3;
+					num = 3;
 				} else {
-					nextMap[cur.r][cur.c] = 2;
+					num = 2;
 				}
+				nextMap[cur.r][cur.c] = num;
 				TeamMap[cur.r][cur.c] = p;
 			}
+		}
 
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < N; j++) {
-					PersonMap[i][j] = nextMap[i][j];
-				}
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				PersonMap[i][j] = nextMap[i][j];
 			}
 		}
+
+//		System.out.println("AFTER");
+//		PrintMap(PersonMap);
+//		System.out.println();
+
 	}
 
 	// 공 던지기(맞으면 머리, 꼬리 바뀜)
 	// 점수 합산
 	public static void ThrowBall(int r, int c, int direction) {
-		PrintMap(PersonMap);
+//		System.out.println("THROW");
+//		System.out.println("R : " + r + " , C : " + c + " DIR : " + direction);
 
-		System.out.println("=====================");
-		for (int i = 0; i < N - 1; i++) {
+		for (int i = 0; i < N; i++) {
 			int nr = r + dr[direction] * i;
 			int nc = c + dc[direction] * i;
+//			System.out.println("NR : " + nr + " ,NC : " + nc);
 
 			if (PersonMap[nr][nc] != 0) {
 				int teamNum = TeamMap[nr][nc];
@@ -258,10 +278,9 @@ public class Main2 {
 				break;
 			}
 		}
-		for (int i = 0; i < M; i++) {
-			System.out.println(Team[i].toString());
-		}
-
+//		for (int i = 0; i < M; i++) {
+//			System.out.println(Team[i].toString());
+//		}
 	}
 
 	public static void PrintMap(int[][] printMap) {
