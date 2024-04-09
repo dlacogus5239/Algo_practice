@@ -16,7 +16,7 @@ public class Main62 {
 			this.num = num;
 			this.pre = null;
 			this.next = null;
-			}
+		}
 
 		@Override
 		public String toString() {
@@ -41,6 +41,7 @@ public class Main62 {
 			int oper = Integer.parseInt(st.nextToken());
 			int i, j;
 			switch (oper) {
+			
 			case 1:
 				i = Integer.parseInt(st.nextToken());
 				disconnect(map.get(i));

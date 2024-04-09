@@ -18,6 +18,8 @@ public class Main63 {
 			this.next = null;
 		}
 
+		
+
 		@Override
 		public String toString() {
 			return "Node [num=" + num + ", pre=" + pre + ", next=" + next + "]";
