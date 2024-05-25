@@ -1,4 +1,4 @@
-package algoPractice;
+package Dijkstra;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -43,9 +43,9 @@ public class Main1753_Dijkstra {
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		V = Integer.parseInt(st.nextToken());
 		E = Integer.parseInt(st.nextToken());
-		START = Integer.parseInt(br.readLine());
+		START = Integer.parseInt(br.readLine()); // 시작점
 		distance = new int[V + 1];
-		Arrays.fill(distance, INF);
+		Arrays.fill(distance, INF); // 초기화 --> INF(Integer.MAX_VALUE 값)로
 		graph = new ArrayList[V + 1];
 		for (int i = 1; i <= V; i++) {
 			graph[i] = new ArrayList<>();
@@ -74,21 +74,22 @@ public class Main1753_Dijkstra {
 
 	public static void Dijkstra(int start) {
 		PriorityQueue<Edge> pq = new PriorityQueue<>(); // weight 오름차순으로 뽑아냄
-		pq.offer(new Edge(start, 0));
+		pq.offer(new Edge(start, 0)); // 시작점 INSERT
 		distance[start] = 0; // 처음 시작점은 0
 		while (!pq.isEmpty()) {
 			Edge cur = pq.poll(); // 정점 하나 꺼낸다.
 			int curVertex = cur.to; // 정점 정보 저장
-			int curWeight = cur.weight;
+			int curWeight = cur.weight; // 현재 최단 경로 정보이다
 			if (curWeight > distance[curVertex]) { // 지금 현재값이 더 크면 검사 X
 				continue;
 			}
-			for (int i = 0; i < graph[curVertex].size(); i++) {
-				Edge tmp = graph[curVertex].get(i);
+			for (int i = 0; i < graph[curVertex].size(); i++) { // 갈 수 있는 정점들 탐색
+				Edge tmp = graph[curVertex].get(i); // 갈 수 있는 정점 (To)
 
-				if (distance[tmp.to] > curWeight + tmp.weight) {
-					distance[tmp.to] = curWeight + tmp.weight;
-					pq.offer(new Edge(tmp.to, curWeight + tmp.weight));
+				if (distance[tmp.to] > curWeight + tmp.weight) { // To 까지 가는데 ,
+					// 현재까지 경로 가중치 + 다음까지 가중치 vs 기록되어있는 가중치
+					distance[tmp.to] = curWeight + tmp.weight; // 현재까지 경로 + 다음까지 가중치가 더작으면
+					pq.offer(new Edge(tmp.to, curWeight + tmp.weight)); // 그 경로(?) 다시 넣어주기
 				}
 			}
 		}
