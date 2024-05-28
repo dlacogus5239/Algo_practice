@@ -18,7 +18,7 @@ public class Main10830 {
 		N = Integer.parseInt(st.nextToken());
 		B = Long.parseLong(st.nextToken());
 		cur = new int[N][N];
-
+		
 		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
 

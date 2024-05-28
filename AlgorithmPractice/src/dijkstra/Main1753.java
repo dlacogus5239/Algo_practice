@@ -1,4 +1,4 @@
-package Dijkstra;
+package dijkstra;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-public class Main1753_Dijkstra {
+public class Main1753 {
 
 	static int V, E; // 정점개수, 간선개수
 	static final int INF = Integer.MAX_VALUE;
