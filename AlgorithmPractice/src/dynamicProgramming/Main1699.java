@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Main1699 {
 	static final int INF = 1_00_010;
+
 	// https://chanhuiseok.github.io/posts/baek-10/
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
