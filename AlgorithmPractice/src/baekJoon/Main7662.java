@@ -29,6 +29,7 @@ public class Main7662 {
 				// 삭제 : D
 				String operation = st.nextToken();
 
+				
 				// 값
 				// 삽입 : 삽입할 값
 				// 삭제 : (최솟값 -1 , 최대값 1)
