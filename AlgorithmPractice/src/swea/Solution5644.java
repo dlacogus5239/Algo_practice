@@ -97,23 +97,6 @@ public class Solution5644 {
 			CanCharge();
 
 			// 충전기 파트 확인
-//			for (int i = 0; i < 10; i++) {
-//				for (int j = 0; j < 10; j++) {
-//					boolean flag = false;
-//					for (int k = 0; k < A; k++) {
-//						if (map[i][j][k]) {
-//							System.out.print("o ");
-//							flag = true;
-//							break;
-//						}
-//					}
-//					if (!flag) {
-//						System.out.print("- ");
-//					}
-//				}
-//				System.out.println();
-//			}
-//			System.out.println();
 
 			Solve();
 
@@ -209,8 +192,6 @@ public class Solution5644 {
 					}
 				}
 			}
-//			System.out.println("===" + time + "===");
-//			System.out.println(max);
 
 			result += max;
 
